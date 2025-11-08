@@ -4,8 +4,12 @@
 
 ## 📝概要
 
-- TypeScript, Phaser3を使って、超簡単なノベルゲームを作りました。*（クソゲーだと思います）*
-- **推定プレイ時間2分**
+> [!NOTE]
+> 推定プレイ時間2分<br>
+> 以下のリンクから遊べます。（GitHubPages）<br>
+> [The_forbidden_Q](https://niwatoriiiiiiiii.github.io/The_forbidden_Q)<br>
+
+- TypeScript, Phaser3を使って、超簡単なノベルゲームを作りました。*（クソゲーだと思います）*<br>
 
 ## ❤️参考にしたサイト
 
