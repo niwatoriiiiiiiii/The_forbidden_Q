@@ -11,6 +11,8 @@ export class TimelinePlayer {
   private timeline?: Timeline;
   private timelineIndex = 0;
 
+  private isPlaying = false;
+
   constructor(private scene: Phaser.Scene, private dialogBox: DialogBox, private textStyle: Phaser.Types.GameObjects.Text.TextStyle={}) {
     // 背景レイヤー・前景レイヤー・UIレイヤーをコンテナを使って表現
     this.backgroundLayer = this.scene.add.container(0, 0);
@@ -27,7 +29,9 @@ export class TimelinePlayer {
 
     // hitAreaをクリックしたらnext()を実行
     this.hitArea.on('pointerdown', () => {
-      this.next();
+      if (this.isPlaying == false) {
+        this.next();
+      }
     });
 
     // hitAreaをUIレイヤーに追加
@@ -114,6 +118,32 @@ export class TimelinePlayer {
     });
   }
 
+  //一文字ずつ表示
+  private revealTextMessage(text: string, number: integer) {
+    if (this.isPlaying == false) {
+      this.isPlaying = true;
+    }
+
+    let next = text.slice(0, number);
+    number++;
+
+    this.hitArea.on('pointerdown', () => {
+      number = text.length;
+      next = text.slice(0, number);
+    });
+
+    if (number <= text.length) {
+      window.setTimeout(() => {
+        this.dialogBox.setText(next);
+        this.revealTextMessage(text, number);
+      }, 50);
+    }
+    else {
+      this.dialogBox.setText(text);
+      this.isPlaying = false;
+    }
+  }
+
   // 次のタイムラインを実行
   private next() {
     if (!this.timeline) {
@@ -135,7 +165,7 @@ export class TimelinePlayer {
           // actorNameが設定されていなかったら名前を非表示
           this.dialogBox.clearActorNameText();
         }
-        this.dialogBox.setText(timelineEvent.text);
+        this.revealTextMessage(timelineEvent.text, 1);
         break;
 
       case 'setBackground':  // 背景設定イベント
